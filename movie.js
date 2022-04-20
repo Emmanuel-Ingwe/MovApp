@@ -73,7 +73,7 @@ const onMovieSelect = async movie => {
         }
     });
 
-    console.log(response.data);
+    document.querySelector('#summary').innerHTML = movieTemplate(response.data);
 };
 
 const movieTemplate = movieDetail => {
@@ -88,7 +88,7 @@ const movieTemplate = movieDetail => {
            <div class="content">
               <h1>${movieDetail.Title}</h1>
               <h4>${movieDetail.Genre}</h4>
-              <p>${movie.Plot}</p>
+              <p>${movieDetail.Plot}</p>
             </div>
         </div>
     </article>
