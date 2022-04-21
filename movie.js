@@ -92,6 +92,22 @@ const movieTemplate = movieDetail => {
             </div>
         </div>
     </article>
+    <article class="notification is-primary">
+        <p class="title">${movieDetail.Awards}</P>
+        <p class="subtle">Awards</p>
+    </article>
+    <article class="notification is-primary">
+        <p class="title">${movieDetail.BoxOffice}</P>
+        <p class="subtle">B0x Office</p>
+    </article>
+    <article class="notification is-primary">
+        <p class="title">${movieDetail.Metascore}</P>
+        <p class="subtle">Metascore</p>
+    </article>
+    <article class="notification is-primary">
+        <p class="title">${movieDetail.Awards}</P>
+        <p class="subtle">Awards</p>
+    </article>
     `;
 };
 
