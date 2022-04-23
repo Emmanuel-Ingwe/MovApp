@@ -15,24 +15,24 @@ const createAutocomplete = ({ root, renderOption, onOptionSelect, inputValue, fe
 
 
     const onInput = async event => {
-        const movies = await fetchData(event.target.value);
+        const items = await fetchData(event.target.value);
 
-        if (!movies.lenght) {
+        if (!items.lenght) {
             dropdown.classList.remove('is-active');
             return;
         }
 
         resultsWrapper.innerHTML = '';
         dropdown.classList.add('is-active');
-        for (let movie of movies) {
+        for (let item of items) {
             const option = document.createElement('a');
 
             option.classList.add('dropdown-item');
-            option.innerHTML = renderOption(movie);
+            option.innerHTML = renderOption(item);
             option.addEventListener('click', () => {
                 dropdown.classList.remove('is-active');
-                input.value = movie.Title;
-                onOptionSelect(movie);
+                input.value = inputValue(ImageBitmap);
+                onOptionSelect(item);
             });
 
             resultsWrapper.appendChild(option);
