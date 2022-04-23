@@ -1,26 +1,31 @@
-const fetchData = async (searchTerm) => {
-    const response = await axios.get('http://www.omdbapi.com/', {
-        params: {
-            apikey: 'd9835cc5',
-            s: searchTerm
-        }
-    });
-
-    if (response.data.Error) {
-        return [];
-    }
-
-    return response.data.search;
-};
-
 createAutocomplete({
     root: document.querySelector('.autocomplete'),
     renderOPtion(movie) {
         const imSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
         return `
-            <img src="${imgSrc}"/>
-             ${movie.Title}
+            <img src="${imgSrc}" />
+             ${movie.Title} (${movie.year})
         `;
+    },
+    onOptionSelect(movie) {
+        onMovieSelect(movie);
+    },
+    inputValue(movie) {
+        return movie.Title;
+    },
+    async fetchData(searchTerm) {
+        const response = await axios.get('http://www.omdbapi.com/', {
+            params: {
+                apikey: 'd9835cc5',
+                s: searchTerm
+            }
+        });
+
+        if (response.data.Error) {
+            return [];
+        }
+
+        return response.data.search;
     }
 });
 
