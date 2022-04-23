@@ -1,5 +1,5 @@
 createAutocomplete({
-    root: document.querySelector('.autocomplete'),
+    root: document.querySelector('#left-autocomplete'),
     renderOPtion(movie) {
         const imSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
         return `
