@@ -31,7 +31,7 @@ createAutocomplete({
     root: document.querySelector('#left-autocomplete'),
     onOptionSelect(movie) {
         document.querySelector('.tutorial').classList.add('is-hidden');
-        onMovieSelect(movie, document.querySelector('#right-summary'));
+        onMovieSelect(movie, document.querySelector('#right-summary'), 'left');
     }
 });
 createAutocomplete({
@@ -39,10 +39,13 @@ createAutocomplete({
     root: document.querySelector('#right-autocomplete'),
     onOptionSelect(movie) {
         document.querySelector('.tutorial').classList.add('is-hidden');
-        onMovieSelect(movie, document.querySelector('#right-summary'));
+        onMovieSelect(movie, document.querySelector('#right-summary'), 'right');
     }
 });
 
+
+let leftMovie;
+let rightMovie;
 const onMovieSelect = async (movie, summaryElement) => {
     const response = await axios.get('http://www.omdbapi.com/', {
         params: {
@@ -52,9 +55,43 @@ const onMovieSelect = async (movie, summaryElement) => {
     });
 
     summaryElement.innerHTML = movieTemplate(response.data);
+
+    if (side === 'left') {
+        leftMovie = response.data;
+    } else {
+        rightMovie = response.data;
+    }
+
+    if (leftMovie && rightMovie) {
+        runComparison();
+    }
 };
 
+const runComparison = () => {
+
+};
+
+
 const movieTemplate = movieDetail => {
+    const dollars = parseInt(
+        movieDetail.BoxOffice.replace(/\$/g, '').replace(/,/g, '')
+    );
+    const metascore = parseInt(movieDetail.metascore);
+    const imdbRating = parseFloat(movieDetail.imdbRating);
+    const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
+
+    let count = 0;
+    const awards = movieDetail.Awards.split('').forEach((word) => {
+        const value = parseInt(word);
+
+        if (isNaN(value)) {
+            return;
+        } else {
+            count = count + value;
+        }
+    });
+    console.log(count);
+
     return `
     <article class="media">
         <figure class="media-left">
@@ -76,7 +113,7 @@ const movieTemplate = movieDetail => {
     </article>
     <article class="notification is-primary">
         <p class="title">${movieDetail.BoxOffice}</P>
-        <p class="subtle">B0x Office</p>
+        <p class="subtle">Box Office</p>
     </article>
     <article class="notification is-primary">
         <p class="title">${movieDetail.Metascore}</P>
