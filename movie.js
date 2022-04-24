@@ -81,16 +81,16 @@ const movieTemplate = movieDetail => {
     const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g, ''));
 
     let count = 0;
-    const awards = movieDetail.Awards.split('').forEach((word) => {
+    const awards = movieDetail.Awards.split('').reduce((prev, word) => {
         const value = parseInt(word);
 
         if (isNaN(value)) {
-            return;
+            return prev;
         } else {
-            count = count + value;
+            return prev + value;
         }
-    });
-    console.log(count);
+    }, 0);
+    console.log(awards);
 
     return `
     <article class="media">
@@ -107,23 +107,24 @@ const movieTemplate = movieDetail => {
             </div>
         </div>
     </article>
-    <article class="notification is-primary">
+
+    <article data-value=${awards} class="notification is-primary">
         <p class="title">${movieDetail.Awards}</P>
         <p class="subtle">Awards</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${dollar} class="notification is-primary">
         <p class="title">${movieDetail.BoxOffice}</P>
         <p class="subtle">Box Office</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${metascore} class="notification is-primary">
         <p class="title">${movieDetail.Metascore}</P>
         <p class="subtle">Metascore</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${imdbRating} class="notification is-primary">
         <p class="title">${movieDetail.imdbRating}</P>
         <p class="subtle">IMDB Rating</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${imdbVotes} class="notification is-primary">
         <p class="title">${movieDetail.imdbVotes}</P>
         <p class="subtle">IMDB Votes</p>
     </article>
